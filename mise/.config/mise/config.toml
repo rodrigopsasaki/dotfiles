@@ -4,7 +4,6 @@ rust = "1.88.0"
 "cargo:rage" = "latest" # provides `rage` and `age` binaries
 "cargo:ripgrep" = "latest" # provides `rg`
 "cargo:fd-find" = "latest" 
-"cargo:ncspot" = "latest"
 "cargo:viu" = "latest"
 
 node = "22.14.0"

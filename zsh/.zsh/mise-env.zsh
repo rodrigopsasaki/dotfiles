@@ -1,1 +1,1 @@
-"$HOME/.local/bin/mise" activate zsh | source /dev/stdin
+eval "$(mise activate zsh)"

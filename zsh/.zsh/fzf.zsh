@@ -1,5 +1,5 @@
-# Homebrew-installed fzf integration
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # FZF config
 export FZF_DEFAULT_COMMAND="fd --type f"
