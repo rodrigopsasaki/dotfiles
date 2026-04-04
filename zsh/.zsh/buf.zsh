@@ -1,1 +1,1 @@
-export BUF_TOKEN=***REMOVED***
+# Buf token loaded from ~/.zsh/secrets/buf.zsh via secrets-loader

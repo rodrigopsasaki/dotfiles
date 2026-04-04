@@ -1,2 +1,1 @@
-export GH_TOKEN=***REMOVED***
-export GITHUB_TOKEN=***REMOVED***
+# GitHub tokens loaded from ~/.zsh/secrets/gh.zsh via secrets-loader

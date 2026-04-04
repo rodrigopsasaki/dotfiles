@@ -1,4 +1,4 @@
-export NPM_TOKEN=***REMOVED***
+# NPM token loaded from ~/.zsh/secrets/npm.zsh via secrets-loader
 
 npm() {
   case "$1" in
@@ -16,4 +16,3 @@ npm() {
       ;;
   esac
 }
-
