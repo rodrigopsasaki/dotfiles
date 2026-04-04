@@ -1,2 +1,1 @@
-export PATH="$HOME/.local/bin:$PATH"
-
+# Core PATH entries are now in ~/.zshenv

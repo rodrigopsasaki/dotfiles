@@ -1,3 +1,1 @@
-# Docker Desktop CLI tools
-export PATH="/Applications/Docker.app/Contents/Resources/bin:$PATH"
-
+# Docker Desktop CLI tools PATH is set in ~/.zshenv

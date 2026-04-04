@@ -1,4 +1,4 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew settings (PATH is set in ~/.zshenv)
 
 # Suppress analytics
 export HOMEBREW_NO_ANALYTICS=1
@@ -12,5 +12,5 @@ export HOMEBREW_NO_ENV_HINTS=1
 # Avoid writing to system directories (just in case)
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 
-# Silence brew doctor if you don’t care
+# Silence brew doctor if you don't care
 # export HOMEBREW_NO_EMOJI=1
