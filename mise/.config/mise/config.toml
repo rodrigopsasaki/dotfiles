@@ -6,14 +6,14 @@ rust = "1.94.1"
 "cargo:fd-find" = "latest" 
 "cargo:viu" = "latest"
 
-node = "22.14.0"
+node = "24.14.0"
 "npm:commitizen" = "latest"
 "npm:turbo" = "latest"
 
 terraform = "1.11.4"
 zig = "0.14.1"
 pnpm = "10.13.1"
-python = "3.13.5"
+python = "3.12.13"
 
 [settings]
 experimental = true
