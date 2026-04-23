@@ -78,9 +78,10 @@
 [credential]
   helper = !gh auth git-credential
 
-[includeIf "gitdir:~/dev/private/**"]
+# Default identity (personal) for any repo under home.
+# Scope-specific includes below override this where needed.
+[includeIf "gitdir:~/"]
   path = ~/.config/git/private/config.local
 
-[includeIf "gitdir:~/dev/cbh/**"]
-  path = ~/.config/git/clipboard/config.local
-
+[includeIf "gitdir:~/dev/sfr3/**"]
+  path = ~/.config/git/sfr3/config.local
