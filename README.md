@@ -1,117 +1,80 @@
-# 🛠️ Rodrigo's Dotfiles
+# Rodrigo's Dotfiles
 
-A modular, minimal dotfiles setup managed with [GNU Stow](https://www.gnu.org/software/stow/).
-Each tool lives in its own directory and is easy to track, modify, or replace.
+Modular, macOS-first dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Each tool lives in its own directory. `stow <tool>` activates it; `stow -D <tool>` removes it.
 
-## 🧭 Table of Contents
-
-- [🧩 Getting Started](#-getting-started)
-- [🧰 Requirements](#-requirements)
-- [🛠️ Tools](#-tools)
-  - [🔧 Git](#-git)
-  - [🧩 Neovim](#-neovim)
-  - [🐚 Zsh](#-zsh)
-  - [📦 mise](#-mise)
-  - [🐙 GitHub CLI (gh)](#-github-cli-gh)
-- [📁 Layout](#-layout)
-- [🧠 Philosophy](#-philosophy)
-
-## ⚡ Getting Started
+## Getting started
 
 ```bash
 git clone https://github.com/rodrigopsasaki/dotfiles ~/.dotfiles
 cd ~/.dotfiles
-stow git zsh nvim mise gh
+stow git zsh nvim mise gh fzf gnupg ghostty
 ```
 
-## 🔧 Requirements
+`.stowrc` sets `--target=~`, so everything lands in your home directory.
 
-- You have [`git`](https://git-scm.com/) installed.
-- You have [`gh`](https://cli.github.com/) installed and authenticated via `gh auth login`.
-- Your system supports symlinks (tested on Linux with GNU Stow).
+## Prerequisites
 
-## 📦 Tools
-
-### 🔧 Git
-
-[→ See full README](./git/README.md)
-
-Opinionated `git` setup with dozens of helpful aliases, delta-powered diffs, and scoped overrides.
+Install with Homebrew:
 
 ```bash
-# Example Aliases
-git s       # short status
-git l       # graph log
-git go foo  # checkout or create branch 'foo'
-git ca      # add all and commit verbosely
-git all pull  # pull across all sub-repos
+brew install stow gh mise nvim fzf eza bat git-delta jq gnupg pinentry-mac
+brew install --cask ghostty
 ```
 
----
-
-### 🐚 Zsh
-
-[→ See full README](./zsh/README.md)
-
-Zsh configuration split into modular files and sourced from `.zshrc`. Includes:
-
-- Plugin support (autosuggestions, syntax highlighting)
-- FZF integration
-- Clean alias and path management
-
----
-
-### 🧩 Neovim
-
-[→ See full README](./nvim/README.md)
-
-Neovim configuration written in Lua. Fast startup, modern plugins, sane defaults.
-
----
-
-### 📦 mise
-
-[→ See full README](./mise/README.md)
-
-Handles language runtime management with [`mise`](https://mise.jdx.dev/).
-
----
-
-### 🐙 GitHub CLI (gh)
-
-[→ See full README](./gh/README.md)
-
-GitHub CLI configuration. Tokens and credentials are not tracked in git.
-
-You must run:
+And bootstrap zsh:
 
 ```bash
-gh auth login
+# oh-my-zsh + plugins
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+  "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+  "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting \
+  "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
 ```
 
-...to authenticate before using the `gh` command set.
+After `stow zsh`, run `p10k configure` to generate `~/.p10k.zsh`.
 
----
+## Packages
 
-## 📁 Layout
+| Package   | Target                         | What it is                                            |
+| --------- | ------------------------------ | ----------------------------------------------------- |
+| `git`     | `~/.config/git/`               | Aliases, delta diffs, scoped identities via `includeIf` |
+| `zsh`     | `~/.zsh/`, `~/.zshrc`, `~/.zshenv` | Modular zsh config sourced from `~/.zsh/*.zsh`     |
+| `nvim`    | `~/.config/nvim/`              | Neovim config (Lua)                                   |
+| `mise`    | `~/.config/mise/`              | Language runtime versions                             |
+| `gh`      | `~/.config/gh/config.yml`      | GitHub CLI (auth lives in gitignored `hosts.yml`)     |
+| `fzf`     | `~/.config/fzf/`               | Preview script                                        |
+| `gnupg`   | `~/.gnupg/gpg-agent.conf`      | GPG agent with `pinentry-mac`, ssh-support            |
+| `ghostty` | `~/.config/ghostty/`           | Terminal config                                       |
 
-Each tool has its own folder. Use `stow <tool>` to activate.
+## Git identity scoping
 
+The tracked `git/.config/git/config` has no personal identity. Identity is loaded via `includeIf`:
+
+```ini
+[includeIf "gitdir:~/"]
+  path = ~/.config/git/private/config.local   # default (personal)
+
+[includeIf "gitdir:~/dev/sfr3/**"]
+  path = ~/.config/git/sfr3/config.local      # work override
 ```
-~/.dotfiles/
-├── git/
-├── zsh/
-├── nvim/
-├── mise/
-└── gh/
+
+Scoped `config.local` files live under `~/.config/git/<scope>/` and are gitignored (pattern `git/.config/git/*/` in `.gitignore`). Create them locally with your name, email, and signing key.
+
+## Machine-private config
+
+Anything that shouldn't be public — work tokens, work-specific aliases, company CLI init — lives in a sibling private repo at `~/.dotfiles-private`. Its `zsh-private` package stows to `~/.zsh-private/`, which the public `.zshrc` sources if present.
+
+```bash
+git clone git@github.com:rodrigopsasaki/dotfiles-private ~/.dotfiles-private
+cd ~/.dotfiles-private && stow zsh-private
 ```
 
----
+## Philosophy
 
-## 🧠 Philosophy
-
-- **Modular** — everything lives in its own namespace
-- **Safe** — secrets go in private overrides and are gitignored
-- **Explicit** — no surprises, no clever magic
-
----
+- **Modular** — one tool per package, opt-in via `stow`.
+- **Safe** — no secrets, no identity, no tokens in the public repo.
+- **Explicit** — no wrapper scripts, no magic bootstrapping.

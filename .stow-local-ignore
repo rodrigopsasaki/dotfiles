@@ -1,4 +1,3 @@
 # .stow-local-ignore
-.aws
-.azure
-
+README.md
+\.md$
