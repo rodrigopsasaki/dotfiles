@@ -28,4 +28,11 @@ for file in ~/.zsh/*.zsh; do
   source "$file"
 done
 
-
+# ── [Machine-private Zsh Config] ──
+# Populated by stowing ~/.dotfiles-private. Harmless when absent.
+if [[ -d ~/.zsh-private ]]; then
+  setopt local_options null_glob
+  for file in ~/.zsh-private/*.zsh; do
+    source "$file"
+  done
+fi
