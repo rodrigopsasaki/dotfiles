@@ -78,10 +78,6 @@
 [credential]
   helper = !gh auth git-credential
 
-# Default identity (personal) for any repo under home.
-# Scope-specific includes below override this where needed.
+# Identity for any repo under home; absent file = no identity, no signing.
 [includeIf "gitdir:~/"]
   path = ~/.config/git/private/config.local
-
-[includeIf "gitdir:~/dev/sfr3/**"]
-  path = ~/.config/git/sfr3/config.local

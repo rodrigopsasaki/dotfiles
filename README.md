@@ -77,10 +77,7 @@ The tracked `git/.config/git/config` has no personal identity. Identity is loade
 
 ```ini
 [includeIf "gitdir:~/"]
-  path = ~/.config/git/private/config.local   # default (personal)
-
-[includeIf "gitdir:~/dev/sfr3/**"]
-  path = ~/.config/git/sfr3/config.local      # work override
+  path = ~/.config/git/private/config.local
 ```
 
 Scoped `config.local` files live under `~/.config/git/<scope>/` and are gitignored (pattern `git/.config/git/*/` in `.gitignore`). Create them locally with your name, email, and signing key.
