@@ -8,7 +8,7 @@ Each tool lives in its own directory. `stow <tool>` activates it; `stow -D <tool
 ```bash
 git clone https://github.com/rodrigopsasaki/dotfiles ~/.dotfiles
 cd ~/.dotfiles
-stow git zsh nvim mise gh fzf gnupg ghostty
+stow git zsh nvim mise gh fzf gnupg ghostty p10k
 ```
 
 `.stowrc` sets `--target=~`, so everything lands in your home directory.
@@ -21,6 +21,26 @@ Install with Homebrew:
 brew install stow gh mise nvim fzf eza bat git-delta jq gnupg pinentry-mac
 brew install --cask ghostty
 ```
+
+### Without Homebrew (locked-down machines)
+
+The CLI toolbelt is also declared in `mise/.config/mise/config.toml`, so everything
+installs into `~` with no admin rights. Stow isn't needed either — symlink by hand:
+
+```bash
+curl https://mise.run | sh                     # installs ~/.local/bin/mise
+ln -s ~/.dotfiles/zsh/.zshrc ~/.zshrc
+ln -s ~/.dotfiles/zsh/.zshenv ~/.zshenv
+ln -s ~/.dotfiles/zsh/.zsh ~/.zsh
+ln -s ~/.dotfiles/p10k/.p10k.zsh ~/.p10k.zsh
+mkdir -p ~/.config
+for p in git nvim mise gh fzf ghostty; do ln -s ~/.dotfiles/$p/.config/$p ~/.config/$p; done
+mise install
+```
+
+Skip `gnupg` there (its pinentry path is Homebrew's). With no `~/.config/git/private/config.local`,
+git has no identity and no signing — set your work identity in a local `config.local` under a
+scope of your choosing.
 
 And bootstrap zsh:
 
@@ -35,7 +55,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
   "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
 ```
 
-After `stow zsh`, run `p10k configure` to generate `~/.p10k.zsh`.
+The prompt is tracked in the `p10k` package; `p10k configure` regenerates it.
 
 ## Packages
 
@@ -49,6 +69,7 @@ After `stow zsh`, run `p10k configure` to generate `~/.p10k.zsh`.
 | `fzf`     | `~/.config/fzf/`               | Preview script                                        |
 | `gnupg`   | `~/.gnupg/gpg-agent.conf`      | GPG agent with `pinentry-mac`, ssh-support            |
 | `ghostty` | `~/.config/ghostty/`           | Terminal config                                       |
+| `p10k`    | `~/.p10k.zsh`                  | Powerlevel10k prompt                                  |
 
 ## Git identity scoping
 

@@ -1,4 +1,5 @@
 # Set up fzf key bindings and fuzzy completion
+(( $+commands[fzf] )) || return 0
 source <(fzf --zsh)
 
 # FZF config

@@ -1,4 +1,12 @@
 [tools]
+# CLI toolbelt the zsh/git/nvim config leans on — prebuilt binaries, no Homebrew needed
+neovim = "latest"
+fzf = "latest"
+bat = "latest"
+delta = "latest"
+jq = "latest"
+gh = "latest"
+
 rust = "1.94.1"
 "cargo:eza" = "latest"
 "cargo:rage" = "latest" # provides `rage` and `age` binaries
